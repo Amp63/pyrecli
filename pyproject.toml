@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pyrecli"
+version = "0.1.0"
+description = "Command line utilities for DiamondFire templates"
+authors = ["Amp"]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/Amp63/pyrecli"
+keywords = ["diamondfire", "minecraft", "template", "cli"]
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.scripts]
+pyrecli = "pyrecli.pyrecli:main"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
