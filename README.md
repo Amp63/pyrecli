@@ -2,6 +2,14 @@
 
 Command line utilities for DiamondFire templates
 
+## Installation
+
+Run the following command in a terminal:
+
+```sh
+pip install pyrecli
+```
+
 ## Commands
 
 - `scan`: Scan all templates on the plot and dump them to a text file (requires [CodeClient](github.com/DFOnline/CodeClient))
