@@ -1,5 +1,6 @@
 import sys
 import argparse
+import importlib.metadata
 
 from pyrecli.command.scan import scan_command
 from pyrecli.command.send import send_command
@@ -11,6 +12,7 @@ from pyrecli.command.docs import docs_command
 
 def main():
     parser = argparse.ArgumentParser(prog='pyrecli', description='Command line utilities for DiamondFire templates')
+    parser.add_argument('--version', '-v', action='version', version=f'pyrecli {importlib.metadata.version('pyrecli')}')
     subparsers = parser.add_subparsers(dest='command', help='Available commands:', required=True, metavar='<command>')
 
     parser_scan = subparsers.add_parser('scan', help='Scan the current plot templates with CodeClient')
