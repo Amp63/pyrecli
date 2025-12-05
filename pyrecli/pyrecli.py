@@ -8,6 +8,15 @@ from pyrecli.command.script import script_command
 from pyrecli.command.rename import rename_command
 from pyrecli.command.grabinv import grabinv_command
 from pyrecli.command.docs import docs_command
+from pyrecli.command.slice import slice_command
+
+
+def slice_target_length(value):
+    MINIMUM_LENGTH = 5
+    ivalue = int(value)
+    if ivalue < MINIMUM_LENGTH:
+        raise argparse.ArgumentTypeError(f'Target length must be at least {MINIMUM_LENGTH} codeblocks')
+    return ivalue
 
 
 def main():
@@ -36,18 +45,23 @@ def main():
     parser_rename.add_argument('var_to_rename', help='The variable to rename', type=str)
     parser_rename.add_argument('new_var_name', help='The new name for the variable', type=str)
     parser_rename.add_argument('--var_to_rename_scope', '-s', help='The scope to match', type=str, default=None)
-    parser_rename.add_argument('--output_path', '-o', help='The file or directory to output to', type=str, default=None)
+    parser_rename.add_argument('--output_path', '-o', help='The file to output to', type=str, default=None)
 
     parser_grabinv = subparsers.add_parser('grabinv', help='Save all templates in the inventory to a file with CodeClient')
     parser_grabinv.add_argument('output_path', help='The file to output template data to', type=str)
 
     parser_docs = subparsers.add_parser('docs', help='Generate markdown documentation from template data')
     parser_docs.add_argument('input_path', help='The file containing template data', type=str)
-    parser_docs.add_argument('output_path', help='The file or directory to output to', type=str)
+    parser_docs.add_argument('output_path', help='The file to output to', type=str)
     parser_docs.add_argument('title', help='The title for the docs', type=str)
     parser_docs.add_argument('--include_hidden', '-ih', help='Include hidden functions and processes', action='store_true')
     parser_docs.add_argument('--notoc', help='Omit the table of contents', action='store_true')
 
+    parser_slice = subparsers.add_parser('slice', help='Slice a template into multiple smaller templates')
+    parser_slice.add_argument('input_path', help='The file containing template data', type=str)
+    parser_slice.add_argument('output_path', help='The file to output template data to', type=str)
+    parser_slice.add_argument('target_length', help='The maximum length of each sliced template', type=slice_target_length)
+    
     parsed_args = parser.parse_args()
 
     match parsed_args.command:
@@ -80,6 +94,12 @@ def main():
             command_result = docs_command(
                 parsed_args.input_path, parsed_args.output_path,
                 parsed_args.title, parsed_args.include_hidden, parsed_args.notoc
+            )
+        
+        case 'slice':
+            command_result = slice_command(
+                parsed_args.input_path, parsed_args.output_path,
+                parsed_args.target_length
             )
     
     if command_result.is_err():
