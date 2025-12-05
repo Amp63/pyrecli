@@ -11,6 +11,14 @@ from pyrecli.command.docs import docs_command
 from pyrecli.command.slice import slice_command
 
 
+def rename_target_scope(value):
+    SCOPES = {'game', 'saved', 'local', 'line'}
+    if value not in SCOPES:
+        raise argparse.ArgumentTypeError(f'Expected one of {SCOPES} for rename target scope')
+    return value
+
+
+
 def slice_target_length(value):
     MINIMUM_LENGTH = 5
     ivalue = int(value)
@@ -44,7 +52,7 @@ def main():
     parser_rename.add_argument('input_path', help='The file containing template data', type=str)
     parser_rename.add_argument('var_to_rename', help='The variable to rename', type=str)
     parser_rename.add_argument('new_var_name', help='The new name for the variable', type=str)
-    parser_rename.add_argument('--var_to_rename_scope', '-s', help='The scope to match', type=str, default=None)
+    parser_rename.add_argument('--var_to_rename_scope', '-s', help='The scope to match', type=rename_target_scope, default=None)
     parser_rename.add_argument('--output_path', '-o', help='The file to output to', type=str, default=None)
 
     parser_grabinv = subparsers.add_parser('grabinv', help='Save all templates in the inventory to a file with CodeClient')
@@ -61,7 +69,7 @@ def main():
     parser_slice.add_argument('input_path', help='The file containing template data', type=str)
     parser_slice.add_argument('output_path', help='The file to output template data to', type=str)
     parser_slice.add_argument('target_length', help='The maximum length of each sliced template', type=slice_target_length)
-    
+
     parsed_args = parser.parse_args()
 
     match parsed_args.command:
