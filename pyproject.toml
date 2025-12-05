@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyrecli"
-version = "0.2.0"
+version = "0.2.1"
 description = "Command line utilities for DiamondFire templates"
 authors = ["Amp"]
 readme = "README.md"
@@ -11,6 +11,7 @@ keywords = ["diamondfire", "minecraft", "template", "cli"]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
+dfpyre = "^0.9.3"
 
 
 [tool.poetry.scripts]
