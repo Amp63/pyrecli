@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from result import Result, Ok, Err
 import websocket
 from dfpyre import DFTemplate
@@ -47,9 +48,10 @@ def parse_templates_from_string(templates: str) -> Result[list[DFTemplate], str]
 def read_input_file(path: str) -> Result[str, str]:
     if path == '-':
         try:
-            input_string = input()
+            input_string = sys.stdin.read()
         except EOFError:
-            return Ok(input_string)
+            pass
+        return Ok(input_string.strip())
     
     if not os.path.isfile(path):
         return Err(f'"{path}" is not a file.')
