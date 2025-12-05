@@ -72,7 +72,10 @@ def docs_command(input_path: str, output_path: str, title: str, include_hidden: 
                     lore_text = [escape_md(l.to_string()) for l in first_arg.get_lore()]
                     if lore_text:
                         template_doc_lines.extend(lore_text)
-                except MCItemlibException:
+                except (MCItemlibException, AttributeError):
+                    # There are so many things that can go wrong here due to various legacy
+                    # item formats and weird MC string edge cases, so we can just skip
+                    # if there's a problem.
                     pass
             
         # Parse parameters
