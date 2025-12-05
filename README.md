@@ -49,8 +49,7 @@ pyrecli scan templates.dfts
 
 **[Requires CodeClient]**
 
-Sends all templates in a file back to DiamondFire.
-Essentially the reverse of `scan`.
+Sends all templates in a file back to your inventory.
 
 Example:
 ```sh
@@ -130,4 +129,16 @@ Example:
 ```sh
 # Slices the first template in `templates.dfts` with a target length of 50 and stores them in `sliced_templates.dfts`
 pyrecli slice templates.dfts sliced_templates.dfts 50
+```
+
+
+### Command Chaining
+
+You can combine the pipe operator (`|`) with hyphen (`-`) file paths to chain multiple commands together.
+
+Example:
+```sh
+# Scans the plot, renames a variable, then sends renamed templates back to DiamondFire
+pyrecli scan - | pyrecli rename - foo bar | pyrecli send -
+
 ```
