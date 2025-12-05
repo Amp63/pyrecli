@@ -2,7 +2,7 @@ import json
 from result import Result, Ok, Err
 import amulet_nbt
 from amulet_nbt import CompoundTag, StringTag
-from pyrecli.util import connect_to_codeclient
+from pyrecli.util import write_output_file, connect_to_codeclient
 
 
 def grabinv_command(output_path: str) -> Result[None, str]:
@@ -42,8 +42,8 @@ def grabinv_command(output_path: str) -> Result[None, str]:
     if not template_codes:
         return Err('Could not find any templates in the inventory.')
 
-    with open(output_path, 'w') as f:
-        f.write('\n'.join(template_codes))
+    output_result = write_output_file(output_path, '\n'.join(template_codes))
+    if output_result.is_err():
+        return output_result
     
-    print(f'Saved {len(template_codes)} template{"s" if len(template_codes) != 1 else ''} to "{output_path}".')
     return Ok(None)

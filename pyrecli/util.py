@@ -31,12 +31,8 @@ def connect_to_codeclient(scopes: str|None=None) -> Result[websocket.WebSocket, 
     return Ok(ws)
 
 
-def parse_templates_from_file(path: str) -> Result[list[DFTemplate], str]:
-    if not os.path.isfile(path):
-        return Err(f'"{path}" is not a file.')
-    
-    with open(path, 'r') as f:
-        template_codes = f.read().split('\n')
+def parse_templates_from_string(templates: str) -> Result[list[DFTemplate], str]:
+    template_codes = templates.split('\n')
     
     for i, template_code in enumerate(template_codes):
         if not BASE64_REGEX.match(template_code):
@@ -46,3 +42,33 @@ def parse_templates_from_file(path: str) -> Result[list[DFTemplate], str]:
         return Ok([DFTemplate.from_code(c) for c in template_codes])
     except Exception as e:
         return Err(str(e))
+
+
+def read_input_file(path: str) -> Result[str, str]:
+    if path == '-':
+        try:
+            input_string = input()
+        except EOFError:
+            return Ok(input_string)
+    
+    if not os.path.isfile(path):
+        return Err(f'"{path}" is not a file.')
+    
+    try:
+        with open(path, 'r') as f:
+            return Ok(f.read())
+    except OSError as e:
+        return Err(str(e))
+
+
+def write_output_file(path: str, content: str) -> Result[None, str]:
+    if path == '-':
+        print(content, end='')
+    else:
+        try:
+            with open(path, 'w') as f:
+                f.write(content)
+        except OSError as e:
+            return Err(str(e))
+
+    return Ok(None)

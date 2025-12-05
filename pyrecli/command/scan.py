@@ -1,5 +1,5 @@
-from result import Result, Ok, Err
-from pyrecli.util import connect_to_codeclient
+from result import Result, Err
+from pyrecli.util import write_output_file, connect_to_codeclient
 
 
 def scan_command(output_path: str) -> Result[None, str]:
@@ -15,10 +15,5 @@ def scan_command(output_path: str) -> Result[None, str]:
     print('Done.')
     ws.close()
 
-    with open(output_path, 'w') as f:
-        f.write(scan_results)
-
-    amount_templates = scan_results.count('\n')
-    print(f'Scanned {amount_templates} template{"s" if amount_templates != 1 else ''} successfully.')
-    
-    return Ok(None)
+    write_result = write_output_file(output_path, scan_results)
+    return write_result

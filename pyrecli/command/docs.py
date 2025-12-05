@@ -1,8 +1,8 @@
 from typing import Literal, TypedDict
-from result import Result, Ok, Err
+from result import Result, Err
 from dfpyre import DFTemplate, Item, Parameter
 from mcitemlib.itemlib import MCItemlibException
-from pyrecli.util import parse_templates_from_file
+from pyrecli.util import read_input_file, write_output_file, parse_templates_from_string
 
 
 STARTER_BLOCK_LOOKUP = {
@@ -25,7 +25,11 @@ class TemplateDocData(TypedDict):
 
 
 def docs_command(input_path: str, output_path: str, title: str, include_hidden: bool, omit_toc: bool) -> Result[None, str]:
-    templates_result = parse_templates_from_file(input_path)
+    input_result = read_input_file(input_path)
+    if input_result.is_err():
+        return Err(input_result.err_value)
+
+    templates_result = parse_templates_from_string(input_result.ok_value)
     if templates_result.is_err():
         return Err(templates_result.err_value)
     templates = templates_result.ok_value
@@ -108,13 +112,10 @@ def docs_command(input_path: str, output_path: str, title: str, include_hidden: 
         add_toc_group(process_templates, 'Processes')
         output_lines.append('\n')
 
-
     # Add template docs to output lines
     for doc_data in template_docs:
         output_lines.extend(doc_data['doc_lines'])
         output_lines.append('')
     
-    with open(output_path, 'w') as f:
-        f.write('\n'.join(output_lines))
-    
-    return Ok(None)
+    write_result = write_output_file(output_path, '\n'.join(output_lines))
+    return write_result
