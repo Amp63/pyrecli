@@ -19,6 +19,7 @@ pip install pyrecli
 - `grabinv`: Save all templates in your Minecraft inventory to a file (requires [CodeClient](github.com/DFOnline/CodeClient))
 - `docs`: Generate markdown documentation from template data
 - `slice`: Slice a template into multiple smaller templates
+- `cctoken`: Get a reusable CodeClient authentication token
 
 
 ## What is this useful for?
@@ -129,6 +130,18 @@ Example:
 ```sh
 # Slices the first template in `templates.dfts` with a target length of 50 and stores them in `sliced_templates.dfts`
 pyrecli slice templates.dfts sliced_templates.dfts 50
+```
+
+
+### CCToken
+
+Returns a CodeClient authentication token that can be used in commands that require CodeClient authorization.
+This is useful for reducing the amount of times you need to run `/auth`.
+
+Example:
+```sh
+# Get a token with the read_plot and inventory scopes
+pyrecli cctoken mytoken.txt "read_plot inventory"
 ```
 
 

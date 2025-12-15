@@ -1,49 +1,44 @@
 import json
-from result import Result, Ok, Err
-import amulet_nbt
-from amulet_nbt import CompoundTag, StringTag
-from pyrecli.util import write_output_file, connect_to_codeclient
+from rapidnbt import nbtio, CompoundTagVariant
+from pyrecli.util import write_output_file, connect_to_codeclient, print_status
 
 
-def grabinv_command(output_path: str) -> Result[None, str]:
-    ws_result = connect_to_codeclient('inventory')
-    if ws_result.is_err():
-        return Err(ws_result.err_value)
-    ws = ws_result.ok_value
+def grabinv_command(output_path: str, token: str|None=None):
+    ws = connect_to_codeclient('inventory', token)
 
     ws.send('inv')
     inventory = ws.recv()
-    inventory_nbt = amulet_nbt.from_snbt(inventory)
+    ws.close()
+
+    inventory = f'{{inventory:{inventory}}}'
+    inventory_nbt = nbtio.loads_snbt(inventory)
 
     template_codes: list[str] = []
-    for tag in inventory_nbt:
-        components: CompoundTag = tag.get('components')
-        if components is None:
+    for tag in inventory_nbt['inventory']:
+        tag: CompoundTagVariant
+        components = tag['components']
+        if components.is_null():
             continue
 
-        custom_data: CompoundTag = components.get('minecraft:custom_data')
-        if custom_data is None:
+        custom_data = components['minecraft:custom_data']
+        if custom_data.is_null():
             continue
             
-        pbv_tag: CompoundTag = custom_data.get('PublicBukkitValues')
-        if pbv_tag is None:
+        pbv_tag = custom_data['PublicBukkitValues']
+        if pbv_tag.is_null():
             continue
         
-        code_template_data: StringTag = pbv_tag.get('hypercube:codetemplatedata')
-        if code_template_data is None:
+        code_template_data = pbv_tag['hypercube:codetemplatedata']
+        if code_template_data.is_null():
             continue
         
-        code_template_json = json.loads(str(code_template_data))
+        code_template_json = json.loads(code_template_data.get_string())
         
         template_code = code_template_json.get('code')
         if template_code:
             template_codes.append(template_code)
 
     if not template_codes:
-        return Err('Could not find any templates in the inventory.')
+        print_status('Could not find any templates in the inventory.')
 
-    output_result = write_output_file(output_path, '\n'.join(template_codes))
-    if output_result.is_err():
-        return output_result
-    
-    return Ok(None)
+    write_output_file(output_path, '\n'.join(template_codes))

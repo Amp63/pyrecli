@@ -1,5 +1,4 @@
 from typing import Literal, TypedDict
-from result import Result, Err
 from dfpyre import DFTemplate, Item, Parameter
 from mcitemlib.itemlib import MCItemlibException
 from pyrecli.util import read_input_file, write_output_file, parse_templates_from_string
@@ -24,15 +23,9 @@ class TemplateDocData(TypedDict):
     doc_lines: list[str]
 
 
-def docs_command(input_path: str, output_path: str, title: str, include_hidden: bool, omit_toc: bool) -> Result[None, str]:
-    input_result = read_input_file(input_path)
-    if input_result.is_err():
-        return Err(input_result.err_value)
-
-    templates_result = parse_templates_from_string(input_result.ok_value)
-    if templates_result.is_err():
-        return Err(templates_result.err_value)
-    templates = templates_result.ok_value
+def docs_command(input_path: str, output_path: str, title: str, include_hidden: bool, omit_toc: bool):
+    templates_string = read_input_file(input_path)
+    templates = parse_templates_from_string(templates_string)
 
     def get_function_name(template: DFTemplate) -> str:
         first_block = template.codeblocks[0]
@@ -72,7 +65,7 @@ def docs_command(input_path: str, output_path: str, title: str, include_hidden: 
                     lore_text = [escape_md(l.to_string()) for l in first_arg.get_lore()]
                     if lore_text:
                         template_doc_lines.extend(lore_text)
-                except (MCItemlibException, AttributeError):
+                except:
                     # There are so many things that can go wrong here due to various legacy
                     # item formats and weird MC string edge cases, so we can just skip
                     # if there's a problem.
@@ -120,5 +113,4 @@ def docs_command(input_path: str, output_path: str, title: str, include_hidden: 
         output_lines.extend(doc_data['doc_lines'])
         output_lines.append('')
     
-    write_result = write_output_file(output_path, '\n'.join(output_lines))
-    return write_result
+    write_output_file(output_path, '\n'.join(output_lines))
