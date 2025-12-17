@@ -19,7 +19,7 @@ def rename_var_in_text_code(s: str, var_to_rename: str, new_var_name: str):
     return s
 
 
-def rename_command(input_path: str, output_path: str|None,
+def rename_command(input_path: str, output_path: str,
                    var_to_rename: str, new_var_name: str,
                    var_to_rename_scope: Literal['game', 'saved', 'local', 'line']|None):
     
@@ -50,5 +50,4 @@ def rename_command(input_path: str, output_path: str|None,
                 codeblock.data['data'] = new_data
     
     new_file_content = '\n'.join(t.build() for t in templates)
-    write_path = output_path if output_path else input_path
-    write_output_file(write_path, new_file_content)
+    write_output_file(output_path, new_file_content)

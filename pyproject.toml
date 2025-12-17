@@ -1,6 +1,6 @@
 [project]
 name = "pyrecli"
-version = "0.3.1"
+version = "0.3.2"
 description = "Command line utilities for DiamondFire templates"
 authors = [
     {name = "Amp"}

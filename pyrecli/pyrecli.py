@@ -52,10 +52,10 @@ def main() -> int:
 
     parser_rename = subparsers.add_parser('rename', help='Rename all occurrences of a variable')
     parser_rename.add_argument('input_path', help='The file containing template data', type=str)
+    parser_rename.add_argument('output_path', help='The file to output to', type=str)
     parser_rename.add_argument('var_to_rename', help='The variable to rename', type=str)
     parser_rename.add_argument('new_var_name', help='The new name for the variable', type=str)
     parser_rename.add_argument('--var_scope', '-s', help='The scope to match', type=rename_target_scope, default=None)
-    parser_rename.add_argument('--output_path', '-o', help='The file to output to', type=str, default=None)
 
     parser_grabinv = subparsers.add_parser('grabinv', help='Save all templates in the inventory to a file with CodeClient')
     parser_grabinv.add_argument('output_path', help='The file to output template data to', type=str)
