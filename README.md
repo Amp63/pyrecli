@@ -66,17 +66,12 @@ This command still requires thorough testing, so make sure you have a backup of 
 
 Example:
 ```sh
-# Changes all variables named `foo` to `bar`.
-pyrecli rename templates.dfts foo bar
+# Changes all variables named `foo` to `bar`, then saves the new templates to 'renamed.dfts'.
+pyrecli rename templates.dfts renamed.dfts foo bar
 
 # You can also target a specific scope.
 # This changes all occurences of the game variable `plotData` to `gameData`.
-pyrecli rename templates.dfts plotData gameData -s game
-```
-
-By default, this modifies the input file in-place, but you can use the `--output_path` flag to output the renamed templates to a new file:
-```sh
-pyrecli rename templates.dfts foo bar --output_path renamed_templates.dfts
+pyrecli rename templates.dfts renamed.dfts plotData gameData -s game
 ```
 
 ### Script
