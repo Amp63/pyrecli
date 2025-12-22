@@ -1,6 +1,5 @@
 from typing import Literal, TypedDict
 from dfpyre import DFTemplate, Item, Parameter
-from mcitemlib.itemlib import MCItemlibException
 from pyrecli.util import read_input_file, write_output_file, parse_templates_from_string
 
 

@@ -8,7 +8,7 @@ def write_to_directory(dir_name: str, templates: list[DFTemplate], flags: dict[s
         os.mkdir(dir_name)
     
     for template in templates:
-        script_path = f'{dir_name}/{template._get_template_name()}.py'
+        script_path = f'{dir_name}/{template.get_template_name()}.py'
         script_string = template.generate_script(**flags)
         with open(script_path, 'w') as f:
             f.write(script_string)

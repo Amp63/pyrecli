@@ -3,7 +3,7 @@ from pyrecli.pyrecli import main
 from contextlib import redirect_stdout
 import io
 from pyrecli.util import parse_templates_from_string
-from dfpyre.slice import get_template_length
+from dfpyre.tool.slice import get_template_length
 
 
 def test_file(tmp_path, slice_input_file):
