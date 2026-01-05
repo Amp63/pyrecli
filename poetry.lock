@@ -346,14 +346,14 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "dfpyre"
-version = "0.10.3"
+version = "0.10.6"
 description = "A package for creating and modifying code templates for the DiamondFire Minecraft server."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "dfpyre-0.10.3-py3-none-any.whl", hash = "sha256:645f889e7736159f4905f3d13dcbc5c7469bf56b6ba304ae4fc79148789bef17"},
-    {file = "dfpyre-0.10.3.tar.gz", hash = "sha256:51837f1b2fb2e710d104069a85a1db492b49f7e5fd04703f607b37c892b85683"},
+    {file = "dfpyre-0.10.6-py3-none-any.whl", hash = "sha256:c20cdbadd4ee778302dbfda8cb1afaf88b953711138225d2c759e4562460342e"},
+    {file = "dfpyre-0.10.6.tar.gz", hash = "sha256:b4f47a74f5c909d8516e5ff59aa9dc922e52f52cba6d23ee945249b0f4796714"},
 ]
 
 [package.dependencies]
@@ -1100,4 +1100,4 @@ dev = ["pytest", "twine"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "5dbcf1efed4a2cd101b45f53954e83baf472d05780e1dd49b3ee24a7456a34d5"
+content-hash = "827f02eafeb7d2a11696edfdfbdb69fd6a7c0a9408a66b0cfb358b51862374b1"
