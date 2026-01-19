@@ -5,9 +5,9 @@ from pyrecli.util import read_input_file, write_output_file, parse_templates_fro
 
 
 TEXT_CODE_PATTERNS = [
-    re.compile(r"%var\(([a-zA-Z0-9!@#$%^&*~`\-_=+\\|;':\",.\/<>? ]+)\)"),
-    re.compile(r"%index\(([a-zA-Z0-9!@#$%^&*~`\-_=+\\|;':\",.\/<>? ]+),\d+\)"),
-    re.compile(r"%entry\(([a-zA-Z0-9!@#$%^&*~`\-_=+\\|;':\",.\/<>? ]+),[a-zA-Z0-9!@#$%^&*~`\-_=+\\|;':\",.\/<>? ]+\)")
+    re.compile(r"%var\(([^\t\r\n]+)\)"),
+    re.compile(r"%index\(([^\t\r\n]+),\d+\)"),
+    re.compile(r"%entry\(([^\t\r\n]+),[^\t\r\n]+\)")
 ]
 
 
@@ -33,16 +33,19 @@ def rename_command(input_path: str, output_path: str,
                 if isinstance(argument, Variable):
                     if argument.name == var_to_rename and (var_to_rename_scope is None or argument.scope == var_to_rename_scope):
                         argument.name = new_var_name
+                    
+                    # Check if this var's name contains a text code with the target variable
                     argument.name = rename_var_in_text_code(argument.name, var_to_rename, new_var_name)
                 
                 # Try to rename parameter
-                elif isinstance(argument, Parameter) and var_to_rename_scope == 'line':
-                    if argument.name == var_to_rename:
+                elif isinstance(argument, Parameter):
+                    if argument.name == var_to_rename and var_to_rename_scope == 'line':
                         argument.name = new_var_name
                 
-                # Check for occurrences of the variable in text codes
-                elif isinstance(argument, (Number, String, Text)) and isinstance(argument.value, str):
-                    argument.value = rename_var_in_text_code(argument.value, var_to_rename, new_var_name)
+                # Rename occurrences of the variable in text codes
+                elif isinstance(argument, (Number, String, Text)):
+                    if isinstance(argument.value, str):
+                        argument.value = rename_var_in_text_code(argument.value, var_to_rename, new_var_name)
             
             # Check for text codes in function calls
             if codeblock.type in {'call_func', 'start_process'}:
