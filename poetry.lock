@@ -346,14 +346,14 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "dfpyre"
-version = "0.11.0"
+version = "0.11.1"
 description = "A package for creating and modifying code templates for the DiamondFire Minecraft server."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "dfpyre-0.11.0-py3-none-any.whl", hash = "sha256:782d553115cd41ef13a04de85124c68ac76e5db76088b9ce7153d4e6c7644cc5"},
-    {file = "dfpyre-0.11.0.tar.gz", hash = "sha256:8755976f3650c4f1cdbb000aaf2ec67c36ef28441cd5ca6a1120de13587b3014"},
+    {file = "dfpyre-0.11.1-py3-none-any.whl", hash = "sha256:71da87bdccf9daf351d0d8f6e4480e82230994260ba918cb83f001b6bf7884c3"},
+    {file = "dfpyre-0.11.1.tar.gz", hash = "sha256:a3356f80fb2ca2c1bb9fbb19efb324fd25c5d137b3e2aa0561d435e85e9287ad"},
 ]
 
 [package.dependencies]
@@ -750,15 +750,15 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pytest"
-version = "9.0.2"
+version = "9.0.3"
 description = "pytest: simple powerful testing with Python"
 optional = true
 python-versions = ">=3.10"
 groups = ["main"]
 markers = "extra == \"dev\""
 files = [
-    {file = "pytest-9.0.2-py3-none-any.whl", hash = "sha256:711ffd45bf766d5264d487b917733b453d917afd2b0ad65223959f59089f875b"},
-    {file = "pytest-9.0.2.tar.gz", hash = "sha256:75186651a92bd89611d1d9fc20f0b4345fd827c41ccd5c299a868a05d70edf11"},
+    {file = "pytest-9.0.3-py3-none-any.whl", hash = "sha256:2c5efc453d45394fdd706ade797c0a81091eccd1d6e4bccfcd476e2b8e0ab5d9"},
+    {file = "pytest-9.0.3.tar.gz", hash = "sha256:b86ada508af81d19edeb213c681b1d48246c1a91d304c6c81a427674c17eb91c"},
 ]
 
 [package.dependencies]
@@ -1100,4 +1100,4 @@ dev = ["pytest", "twine"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "9300d6b8b4b722b23764a36d664b5aaf7d1099a5954bfe85876b6215f7de24fc"
+content-hash = "524fa79be799f59adc7ca7a637d6e88b0a7c91d0da5aedb3c355d5649207b090"
